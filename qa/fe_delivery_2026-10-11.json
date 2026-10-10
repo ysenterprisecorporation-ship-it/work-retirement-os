@@ -1,0 +1,32 @@
+{
+  "date_jst": "2026-10-11",
+  "sample_only": true,
+  "customer_order": false,
+  "external_delivery_sent": false,
+  "answers": {
+    "task": "C",
+    "environment": [
+      "M365"
+    ],
+    "frequency": "毎週",
+    "constraints": [
+      "外部AIへの入力不可"
+    ]
+  },
+  "diagnosis_characters": 384,
+  "selected_patch": "03_meeting_minutes_todo",
+  "reused_archive": "release/2026-10-10/FE/FE_delivery.zip",
+  "sha256": "d54de9388fb5d4e94eda0e27540e23a7ca47973d74224055c422b2ec9c755ba2",
+  "crc": "PASS",
+  "archive_contents_match_current_generator": true,
+  "diagnosis_matches_current_generator": true,
+  "patch_sample_matches_expected": true,
+  "patch_output": {
+    "minutes_markdown": "# 定例作業整理会議（架空）\n\n## 決定事項\n- 月次報告の書式を一本化する\n\n## ToDo\n| 作業 | 担当 | 期限 |\n| --- | --- | --- |\n| 入力項目を整理する | 担当A | 次回会議まで |\n| 確認手順をまとめる | 担当B | 未設定 |\n",
+    "task_count": 2,
+    "inferred_facts": false
+  },
+  "formal_delivery_message_ready": true,
+  "coconala_attachment_ui_verified": false,
+  "m365_live_verified": false
+}

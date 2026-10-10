@@ -1,0 +1,28 @@
+{
+  "date_jst": "2026-10-11",
+  "page_requests": [
+    {
+      "url": "https://coconala.com/services/4445208",
+      "status": "PROXY_CONNECT_DENIED",
+      "reason": "Tunnel connection failed: 403 Forbidden",
+      "content_retrieved": false
+    },
+    {
+      "url": "https://coconala.com/requests",
+      "status": "PROXY_CONNECT_DENIED",
+      "reason": "Tunnel connection failed: 403 Forbidden",
+      "content_retrieved": false
+    }
+  ],
+  "request_details_read": 0,
+  "limit": 10,
+  "matching_count": null,
+  "individual_proposals_completed": 0,
+  "proposal_limit": 3,
+  "external_submissions_sent": 0,
+  "listing_views": null,
+  "inquiries": null,
+  "paid_orders": null,
+  "network_draft_saved": true,
+  "network_publish_verified": false
+}

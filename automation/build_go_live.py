@@ -23,6 +23,7 @@ for platform,filename in [('X','x_posts.txt'),('Instagram','instagram_posts.txt'
  SNS[platform]=body
  for folder in [ROOT/'sales/sns',REL/'sns']:(folder/f'tonight_{platform.lower()}.txt').write_text(body+'\n',encoding='utf-8')
 def sns_full():return '\n\n'.join(block(platform+'：公開保留の草稿',body) for platform,body in SNS.items())
+add('> 現在の優先作業は[2026-10-11実行結果](../2026-10-11/EXECUTION.md)。今回の正式依頼ではSNSの案内先を公開済みココナラFEに変更し、Square追加を前提にしない。以下は10月10日の履歴と既存入力資産。')
 add('''# GO LIVE NOW — Issue #1
 
 ## A. RELEASE STATUS
