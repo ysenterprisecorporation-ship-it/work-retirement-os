@@ -1,0 +1,6 @@
+{
+  "status": "STATIC_CHECK_PASS",
+  "findings": [],
+  "executed": false,
+  "notice": "静的検索のみ。安全性・コンパイル・実行結果の証明ではありません。Excelの複製ファイルで実機試験が必要です。"
+}

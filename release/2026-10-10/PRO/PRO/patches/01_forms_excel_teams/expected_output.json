@@ -1,0 +1,8 @@
+{
+  "row_count": 2,
+  "csv": "response_id,category,detail\r\nR001,一般受付,手順書の更新を希望\r\nR002,備品,資料の追加を希望\r\n",
+  "teams_drafts": [
+    "受付ID R001 の回答を受信しました。Excelの受付表で内容をご覧ください。",
+    "受付ID R002 の回答を受信しました。Excelの受付表で内容をご覧ください。"
+  ]
+}

@@ -1,0 +1,38 @@
+test_all_diagnosis_lengths (test_workflows.FulfillmentTests.test_all_diagnosis_lengths) ... ok
+test_archives_self_contained (test_workflows.FulfillmentTests.test_archives_self_contained) ... ok
+test_contradictory_options_rejected (test_workflows.FulfillmentTests.test_contradictory_options_rejected) ... ok
+test_forms_permissions_fallback (test_workflows.FulfillmentTests.test_forms_permissions_fallback) ... ok
+test_macro_block_fallback (test_workflows.FulfillmentTests.test_macro_block_fallback) ... ok
+test_output_overwrite_refused (test_workflows.FulfillmentTests.test_output_overwrite_refused) ... ok
+test_pii_field_rejected (test_workflows.FulfillmentTests.test_pii_field_rejected) ... ok
+test_pro_fit_constraint (test_workflows.FulfillmentTests.test_pro_fit_constraint) ... ok
+test_unknown_option_rejected (test_workflows.FulfillmentTests.test_unknown_option_rejected) ... ok
+test_all_reference_outputs (test_workflows.PatchTests.test_all_reference_outputs) ... ok
+test_cli_good_and_bad_exit (test_workflows.PatchTests.test_cli_good_and_bad_exit) ... ok
+test_forms_csv_injection (test_workflows.PatchTests.test_forms_csv_injection) ... ok
+test_forms_deduplicates (test_workflows.PatchTests.test_forms_deduplicates) ... ok
+test_forms_empty (test_workflows.PatchTests.test_forms_empty) ... ok
+test_forms_invalid_input (test_workflows.PatchTests.test_forms_invalid_input) ... ok
+test_forms_notification_minimized (test_workflows.PatchTests.test_forms_notification_minimized) ... ok
+test_mail_ambiguous (test_workflows.PatchTests.test_mail_ambiguous) ... ok
+test_mail_no_promise (test_workflows.PatchTests.test_mail_no_promise) ... ok
+test_mail_no_send (test_workflows.PatchTests.test_mail_no_send) ... ok
+test_mail_unknown (test_workflows.PatchTests.test_mail_unknown) ... ok
+test_meeting_empty (test_workflows.PatchTests.test_meeting_empty) ... ok
+test_meeting_missing_due (test_workflows.PatchTests.test_meeting_missing_due) ... ok
+test_meeting_table_escape (test_workflows.PatchTests.test_meeting_table_escape) ... ok
+test_monthly_bad_period (test_workflows.PatchTests.test_monthly_bad_period) ... ok
+test_monthly_decimal (test_workflows.PatchTests.test_monthly_decimal) ... ok
+test_monthly_invalid_number (test_workflows.PatchTests.test_monthly_invalid_number) ... ok
+test_monthly_missing_period (test_workflows.PatchTests.test_monthly_missing_period) ... ok
+test_monthly_negative (test_workflows.PatchTests.test_monthly_negative) ... ok
+test_monthly_nonfinite (test_workflows.PatchTests.test_monthly_nonfinite) ... ok
+test_monthly_zero_comparison (test_workflows.PatchTests.test_monthly_zero_comparison) ... ok
+test_vba_danger_detected (test_workflows.PatchTests.test_vba_danger_detected) ... ok
+test_vba_explicit_required (test_workflows.PatchTests.test_vba_explicit_required) ... ok
+test_vba_never_executed (test_workflows.PatchTests.test_vba_never_executed) ... ok
+
+----------------------------------------------------------------------
+Ran 33 tests in 0.092s
+
+OK

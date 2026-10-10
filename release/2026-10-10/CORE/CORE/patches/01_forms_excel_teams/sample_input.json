@@ -1,0 +1,17 @@
+[
+  {
+    "response_id": "R001",
+    "category": "一般受付",
+    "detail": "手順書の更新を希望"
+  },
+  {
+    "response_id": "R002",
+    "category": "備品",
+    "detail": "資料の追加を希望"
+  },
+  {
+    "response_id": "R001",
+    "category": "一般受付",
+    "detail": "重複回答"
+  }
+]

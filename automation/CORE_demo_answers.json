@@ -1,0 +1,10 @@
+{
+  "task": "C",
+  "environment": [
+    "M365"
+  ],
+  "frequency": "毎週",
+  "constraints": [
+    "外部AIへの入力不可"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "kind": "manual_configuration_spec_not_import_package",
+  "table": "受付表",
+  "columns": [
+    "response_id",
+    "category",
+    "detail"
+  ],
+  "concurrency": 1,
+  "duplicate_key": "response_id",
+  "notification": "受付IDのみ",
+  "steps": [
+    "Forms trigger",
+    "Get response details",
+    "List Excel rows",
+    "Filter by response_id",
+    "If absent: add row",
+    "Post Teams draft"
+  ]
+}

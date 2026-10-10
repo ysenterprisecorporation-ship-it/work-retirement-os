@@ -1,0 +1,22 @@
+{
+  "current_period": "2026-09",
+  "previous_period": "2026-08",
+  "records": [
+    {
+      "period": "2026-08",
+      "amount": "120"
+    },
+    {
+      "period": "2026-08",
+      "amount": "80"
+    },
+    {
+      "period": "2026-09",
+      "amount": "150"
+    },
+    {
+      "period": "2026-09",
+      "amount": "100"
+    }
+  ]
+}
