@@ -9,7 +9,7 @@ Xは2投稿、Instagram・Facebook・Shortsは各1投稿へ展開。
 
 ## S2: Forms受付
 
-フォーム回答を手で転記する前に、回答IDで整理して受付通知する流れを考える。
+フォーム回答は、回答IDで整理して受付通知する流れを考える。
 通知は受付IDだけ。本文をむやみに共有しない。
 
 Xは2投稿、Instagram・Facebook・Shortsは各1投稿へ展開。

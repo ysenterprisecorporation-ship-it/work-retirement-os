@@ -8,6 +8,8 @@ M365を使う企業担当者向けの業務診断・定型業務テンプレー�
 
 ## 販売開始用成果物
 
+[出品全文・今夜の投稿・設定を統合したGO LIVE](release/2026-10-10/GO_LIVE_NOW.md)
+
 [リリース判定](release/2026-10-10/RELEASE_CHECK.md) / [貼り付け索引](release/2026-10-10/COPY_PASTE_INDEX.md) / [公開操作](release/2026-10-10/HUMAN_ACTIONS.md) / [全件QA](qa/full_qa.md)
 
 FE 3,000円、CORE 10,000円、PRO 40,000円。顧客専用開発や設定代行は含みません。商品の価格・範囲はbusiness/catalog.jsonを正本とします。

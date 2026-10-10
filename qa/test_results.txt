@@ -33,6 +33,6 @@ test_vba_explicit_required (test_workflows.PatchTests.test_vba_explicit_required
 test_vba_never_executed (test_workflows.PatchTests.test_vba_never_executed) ... ok
 
 ----------------------------------------------------------------------
-Ran 33 tests in 0.099s
+Ran 33 tests in 0.115s
 
 OK

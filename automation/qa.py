@@ -155,6 +155,46 @@ check('納品ZIP・本数・自己完結',not archive_bad and zip_count==8,str(a
 for folder in ['FE','CORE','PRO','coconala','square','sns','images']:
  check('リリース構成 '+folder,(RELEASE/folder).is_dir(),folder)
 
+# Validate the single-file launch guide, including pasted channel-specific blocks.
+guide_path=RELEASE/'GO_LIVE_NOW.md'
+guide=guide_path.read_text(encoding='utf-8') if guide_path.exists() else ''
+labels=['A. RELEASE STATUS','B. 今日公開する順番','C. ココナラFE 完全入力セット','D. Square 完全入力セット','E. SNS 今夜投稿するもの','F. 環境設定','G. 人間総作業時間']
+positions=[guide.find('## '+label) for label in labels]
+check('GO LIVE構成・順序',all(x>=0 for x in positions) and positions==sorted(positions),'A〜G、全文入力セット、FE先行公開計画')
+embedded_missing=[]
+for channel in ['coconala','square']:
+ for tier in catalog:
+  for src in (RELEASE/channel/tier).glob('*.txt'):
+   if src.read_text(encoding='utf-8').strip() not in guide:embedded_missing.append(str(src.relative_to(RELEASE)))
+check('GO LIVE販売文の全文一致',not embedded_missing,str(embedded_missing) if embedded_missing else '両チャネル・3商品の全文を同一文書に収録')
+cc_ranges=[]
+for left,right in [('### B1.','### B2.'),('### B4.','## C.'),('## C.','## D.')]:
+ if left in guide and right in guide:cc_ranges.append(guide.split(left,1)[1].split(right,1)[0])
+cc_blocks=[block for section in cc_ranges for block in re.findall(r'```text\n(.*?)\n```',section,re.S)]
+check('GO LIVEココナラ外部誘導',bool(cc_blocks) and not any(pattern.search(block) for block in cc_blocks),f'{len(cc_blocks)}貼り付け枠を再検査')
+sq_section=guide.split('## D.',1)[1].split('## E.',1)[0] if '## D.' in guide and '## E.' in guide else ''
+sq_blocks=re.findall(r'```text\n(.*?)\n```',sq_section,re.S)
+check('GO LIVESquare誘導混在',bool(sq_blocks) and not any('ココナラ' in b for b in sq_blocks),f'{len(sq_blocks)}貼り付け枠にココナラ誘導なし')
+def x_weighted(text):
+ return sum(1 if ord(c)<=0x10ff or 0x2000<=ord(c)<=0x200d or 0x2010<=ord(c)<=0x201f or 0x2032<=ord(c)<=0x2037 else 2 for c in text)
+x_bodies=[b.split('\n',1)[1].strip() for b in (ROOT/'sales/sns/x_posts.txt').read_text().split('\n\n---\n\n')]
+x_sizes=[x_weighted(b) for b in x_bodies]
+check('X通常投稿の文字枠',all(n<=280 for n in x_sizes),f'{len(x_sizes)}本、重み付き最大{max(x_sizes)}／280')
+cta_bad=[]
+for platform in ['x','instagram','facebook']:
+ post=(RELEASE/f'sns/tonight_{platform}.txt').read_text(encoding='utf-8').strip()
+ if not post or post not in guide or 'プロフィールのSquareストアから' not in post or 'ココナラ' in post:cta_bad.append(platform)
+ if platform=='instagram' and any(x in post for x in ['画像1：','画像2：','キャプション：']):cta_bad.append(platform)
+check('今夜のSNS CTA・本文',not cta_bad,str(cta_bad) if cta_bad else '3媒体各1本、Square FEの実URLをプロフィールへ設定する手順、画像1枚で成立')
+release_missing=[]
+for channel in ['coconala','square','sns']:
+ for src in (ROOT/'sales'/channel).rglob('*'):
+  if src.is_file():
+   target=RELEASE/channel/src.relative_to(ROOT/'sales'/channel)
+   if not target.exists() or target.read_bytes()!=src.read_bytes():release_missing.append(str(target.relative_to(RELEASE)))
+check('販売ソースとリリース同期',not release_missing,str(release_missing) if release_missing else '全販売文のバイト一致、必要なファイルの欠落なし')
+check('画像パス・22分計画',all((RELEASE/f'images/{tier}.png').exists() and str(RELEASE/f'images/{tier}.png') in guide for tier in catalog) and '8＋7＋7＝22分' in guide and '50分' in guide,'絶対画像パス3件・販売開始22分と全商品公開50分を区別')
+
 # Functional test suite must actually execute.
 suite=unittest.defaultTestLoader.discover(str(ROOT/'qa'),pattern='test_*.py')
 buffer=io.StringIO(); outcome=unittest.TextTestRunner(stream=buffer,verbosity=2).run(suite)
@@ -180,7 +220,7 @@ check('不要ファイル',not junk,str(junk) if junk else '資格情報・OSキ
 failures=sum(not r[1] for r in results)
 report=['# 全件QA結果','', '最終判定：'+('PASS' if not failures else 'FAIL'),'','| 検査 | 結果 | 証拠・範囲 |','| --- | --- | --- |']
 report += [f'| {name} | {"PASS" if passed else "FAIL"} | {detail.replace("|","／")} |' for name,passed,detail in results]
-report += ['', '## 自己修正履歴','','- 初回のCSV数式保護テストで、前後空白を正規化する実装と期待値が不一致。入力正規化後も先頭の数式開始文字をアポストロフィで保護することを検証する期待値へ修正。機能テストを再実行して全件PASS。','- Formsフローの重複判定と通知位置が曖昧だったため、応答IDとフィルターの名前、判定式、Yes側の配置、通知失敗時の手動復旧を具体化。', '- 未完マーカー検査で、指定された商品名ToDoと、無期限対応を禁止する規則を誤検出。商品ラベルと明示的な否定を用途で区別する検査へ修正し、全件を再検査。','', '## 実施していない検証','','M365実テナント連携、AIサービスへ送信、VBA実機コンパイル・実行、販売サイト公開・決済、顧客診断は未実施。Pythonサンプル・静的検査の結果と区別して商品に明記。販売素材は完成、公開はHUMAN_ACTIONS.mdの認証済み販売者操作が必要。','', '未完成マーカーの検索語を含む監査実装自体と、指定管理ファイル名は未完の販売文章として扱わない。コード静的検査と個人情報のパターン検索は網羅的な安全保証ではない。']
+report += ['', '## 自己修正履歴','','- 初回のCSV数式保護テストで、前後空白を正規化する実装と期待値が不一致。入力正規化後も先頭の数式開始文字をアポストロフィで保護することを検証する期待値へ修正。機能テストを再実行して全件PASS。','- 最終公開前の見直しでX投稿3が通常投稿の重み付き280枠を超えていたため短縮。全投稿にSquare直販のCTAを明示し、Instagramの今夜本文は画像1枚用に切り出した。', '- Formsフローの重複判定と通知位置が曖昧だったため、応答IDとフィルターの名前、判定式、Yes側の配置、通知失敗時の手動復旧を具体化。', '- 未完マーカー検査で、指定された商品名ToDoと、無期限対応を禁止する規則を誤検出。商品ラベルと明示的な否定を用途で区別する検査へ修正し、全件を再検査。','', '## 実施していない検証','','M365実テナント連携、AIサービスへ送信、VBA実機コンパイル・実行、販売サイト公開・決済、顧客診断は未実施。Pythonサンプル・静的検査の結果と区別して商品に明記。販売素材は完成、公開はHUMAN_ACTIONS.mdの認証済み販売者操作が必要。','', '未完成マーカーの検索語を含む監査実装自体と、指定管理ファイル名は未完の販売文章として扱わない。コード静的検査と個人情報のパターン検索は網羅的な安全保証ではない。']
 content='\n'.join(report)+'\n'
 (ROOT/'qa/full_qa.md').write_text(content,encoding='utf-8')
 (RELEASE/'QA_REPORT.md').write_text(content,encoding='utf-8')

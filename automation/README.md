@@ -22,6 +22,7 @@ python automation/build_content.py
 python automation/build_images.py
 python -m unittest discover -s qa -p 'test_*.py' -v
 python automation/build_release.py
+python automation/build_go_live.py
 python automation/qa.py
 ```
 
