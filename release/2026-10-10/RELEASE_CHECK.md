@@ -12,6 +12,6 @@ RELEASE STATUS: READY
 - 見本の診断は架空回答。購入者向けは回答選択肢から生成して納品する。
 - 機能テスト・文章QA・展開後実行の詳細は[QA_REPORT.md](QA_REPORT.md)。ハッシュはSHA256SUMS.json。
 - M365実接続、VBA実機実行、販売サイト公開・決済は未実施。商品説明で未検証範囲を明示。
-- Git：mainの初期化・初期コミット済み。リリースコミットを作成してGitHubへpushする。結果は同ファイルへ追記する。
+- Git：mainを作成。初期コミット16cc3af、リリースコミット491e906を作成し、GitHubのorigin/mainへpush成功。pushの人間操作は不要。
 
 制作上の未解消事項はありません。販売者アカウントでの公開操作は[HUMAN_ACTIONS.md](HUMAN_ACTIONS.md)の公開手順。販売者の本人・口座・法定表示設定が未完了なら、そのチャネルはまだ販売開始できません。
