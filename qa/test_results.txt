@@ -1,3 +1,48 @@
+test_accepted_email_is_not_delivered (test_square.PaidDeliveryTests.test_accepted_email_is_not_delivered) ... ok
+test_answer_changes_after_delivery_block (test_square.PaidDeliveryTests.test_answer_changes_after_delivery_block) ... ok
+test_changed_recipient_on_uncertain_retry_blocks (test_square.PaidDeliveryTests.test_changed_recipient_on_uncertain_retry_blocks) ... ok
+test_delivery_dry_run_no_files_or_email (test_square.PaidDeliveryTests.test_delivery_dry_run_no_files_or_email) ... ok
+test_delivery_needs_request_and_approval (test_square.PaidDeliveryTests.test_delivery_needs_request_and_approval) ... ok
+test_email_from_same_customer_fallback (test_square.PaidDeliveryTests.test_email_from_same_customer_fallback) ... ok
+test_end_to_end_request_answer_zip_delivery_reuse (test_square.PaidDeliveryTests.test_end_to_end_request_answer_zip_delivery_reuse) ... ok
+test_expired_uncertain_send_never_resends (test_square.PaidDeliveryTests.test_expired_uncertain_send_never_resends) ... ok
+test_lodging_payment_no_send (test_square.PaidDeliveryTests.test_lodging_payment_no_send) ... ok
+test_mail_lost_response_retries_once_with_identical_zip (test_square.PaidDeliveryTests.test_mail_lost_response_retries_once_with_identical_zip) ... ok
+test_missing_buyer_email_blocks (test_square.PaidDeliveryTests.test_missing_buyer_email_blocks) ... ok
+test_no_payment_no_send (test_square.PaidDeliveryTests.test_no_payment_no_send) ... ok
+test_poll_no_lodging_sends (test_square.PaidDeliveryTests.test_poll_no_lodging_sends) ... ok
+test_promote_after_production_delivery_only (test_square.PaidDeliveryTests.test_promote_after_production_delivery_only) ... ok
+test_receipt_or_notification_not_proof (test_square.PaidDeliveryTests.test_receipt_or_notification_not_proof) ... ok
+test_refunded_no_send (test_square.PaidDeliveryTests.test_refunded_no_send) ... ok
+test_request_idempotent_and_no_pii_in_output_or_state (test_square.PaidDeliveryTests.test_request_idempotent_and_no_pii_in_output_or_state) ... ok
+test_sandbox_proof_cannot_promote (test_square.PaidDeliveryTests.test_sandbox_proof_cannot_promote) ... ok
+test_3000_unrelated_does_not_match (test_square.SquareTests.test_3000_unrelated_does_not_match) ... ok
+test_contact_conditions_buyer_visible (test_square.SquareTests.test_contact_conditions_buyer_visible) ... ok
+test_creation_exact_payload_idempotent (test_square.SquareTests.test_creation_exact_payload_idempotent) ... ok
+test_creation_intent_change_cannot_create_second_link (test_square.SquareTests.test_creation_intent_change_cannot_create_second_link) ... ok
+test_creation_lost_response_reuses_same_remote_key (test_square.SquareTests.test_creation_lost_response_reuses_same_remote_key) ... ok
+test_creation_requires_delivery_route (test_square.SquareTests.test_creation_requires_delivery_route) ... ok
+test_cursor_cycle_blocks (test_square.SquareTests.test_cursor_cycle_blocks) ... ok
+test_dry_run_no_remote_or_local_writes (test_square.SquareTests.test_dry_run_no_remote_or_local_writes) ... ok
+test_duplicate_exact_links_block (test_square.SquareTests.test_duplicate_exact_links_block) ... ok
+test_environment_explicit_and_host_fixed (test_square.SquareTests.test_environment_explicit_and_host_fixed) ... ok
+test_existing_link_without_terms_is_not_promoted (test_square.SquareTests.test_existing_link_without_terms_is_not_promoted) ... ok
+test_existing_match_reuse_no_post (test_square.SquareTests.test_existing_match_reuse_no_post) ... ok
+test_existing_tip_shipping_subscriptions_rejected (test_square.SquareTests.test_existing_tip_shipping_subscriptions_rejected) ... ok
+test_fe_price_mismatch_blocks (test_square.SquareTests.test_fe_price_mismatch_blocks) ... ok
+test_http_errors_never_echo_body_or_token (test_square.SquareTests.test_http_errors_never_echo_body_or_token) ... ok
+test_inactive_or_non_jpy_location_rejected (test_square.SquareTests.test_inactive_or_non_jpy_location_rejected) ... ok
+test_location_selection_explicit (test_square.SquareTests.test_location_selection_explicit) ... ok
+test_lodging_2980_not_fe (test_square.SquareTests.test_lodging_2980_not_fe) ... ok
+test_missing_token_clean_exit (test_square.SquareTests.test_missing_token_clean_exit) ... ok
+test_multiple_locations_no_creation (test_square.SquareTests.test_multiple_locations_no_creation) ... ok
+test_network_error_redaction (test_square.SquareTests.test_network_error_redaction) ... ok
+test_pagination_all_pages (test_square.SquareTests.test_pagination_all_pages) ... ok
+test_quantity_and_unknown_url_rejected (test_square.SquareTests.test_quantity_and_unknown_url_rejected) ... ok
+test_redirect_is_refused_without_forwarding_bearer (test_square.SquareTests.test_redirect_is_refused_without_forwarding_bearer) ... ok
+test_sender_unverified_blocks_creation (test_square.SquareTests.test_sender_unverified_blocks_creation) ... ok
+test_total_tax_added_not_3000 (test_square.SquareTests.test_total_tax_added_not_3000) ... ok
+test_wrong_currency_blocks (test_square.SquareTests.test_wrong_currency_blocks) ... ok
 test_all_diagnosis_lengths (test_workflows.FulfillmentTests.test_all_diagnosis_lengths) ... ok
 test_archives_self_contained (test_workflows.FulfillmentTests.test_archives_self_contained) ... ok
 test_contradictory_options_rejected (test_workflows.FulfillmentTests.test_contradictory_options_rejected) ... ok
@@ -33,6 +78,6 @@ test_vba_explicit_required (test_workflows.PatchTests.test_vba_explicit_required
 test_vba_never_executed (test_workflows.PatchTests.test_vba_never_executed) ... ok
 
 ----------------------------------------------------------------------
-Ran 33 tests in 0.115s
+Ran 78 tests in 0.605s
 
 OK

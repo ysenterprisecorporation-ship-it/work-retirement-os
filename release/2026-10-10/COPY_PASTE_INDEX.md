@@ -27,3 +27,5 @@
 初日のSNS本文：sns/x_posts.txtの投稿1、sns/instagram_posts.txtの投稿1、sns/facebook_posts.txtの投稿1。ショート動画はsns/shorts_scripts.txtの台本1から制作できます。台本を完成動画として扱いません。
 
 販売操作は[HUMAN_ACTIONS.md](HUMAN_ACTIONS.md)、QA結果は[QA_REPORT.md](QA_REPORT.md)、最終判定は[RELEASE_CHECK.md](RELEASE_CHECK.md)に記載。
+
+Issue #1：ココナラFEは公開済みの報告、Squareは既存リンク優先。SNS本文は実URLと納品検証まで公開保留。[実施状況](SQUARE_LAUNCH_STATUS.md)。

@@ -9,6 +9,7 @@ import zipfile
 from pathlib import Path
 from PIL import Image
 ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT))
 sys.path.insert(0,str(ROOT/'automation'))
 from patch_runner import PATCHES,run
 from build_release import manifest
@@ -50,7 +51,7 @@ for p,t in texts.items():
   target=href.split('#')[0].strip('<>')
   if not target or re.match(r'^[a-z]+:',target):continue
   if not (p.parent/target).exists():broken.append(str(p.relative_to(ROOT))+':'+target)
-check('内部Markdownリンク',not broken,str(broken) if broken else '全ローカルリンクの宛先が存在。外部URLは販売素材に使用していない')
+check('内部Markdownリンク',not broken,str(broken) if broken else '全ローカルリンクの宛先が存在。外部API資料のURLは存在検査の対象外')
 
 catalog=json.loads((ROOT/'business/catalog.json').read_text(encoding='utf-8'))
 missing=[]
@@ -193,7 +194,7 @@ for channel in ['coconala','square','sns']:
    target=RELEASE/channel/src.relative_to(ROOT/'sales'/channel)
    if not target.exists() or target.read_bytes()!=src.read_bytes():release_missing.append(str(target.relative_to(RELEASE)))
 check('販売ソースとリリース同期',not release_missing,str(release_missing) if release_missing else '全販売文のバイト一致、必要なファイルの欠落なし')
-check('画像パス・22分計画',all((RELEASE/f'images/{tier}.png').exists() and str(RELEASE/f'images/{tier}.png') in guide for tier in catalog) and '8＋7＋7＝22分' in guide and '50分' in guide,'絶対画像パス3件・販売開始22分と全商品公開50分を区別')
+check('画像パス・既存販売と直販検証',all((RELEASE/f'images/{tier}.png').exists() and str(RELEASE/f'images/{tier}.png') in guide for tier in catalog) and '4445208' in guide and '同時受付上限10件' in guide and 'BLOCKED' in guide and '実URL' in guide and '操作約15分' in guide,'画像3件・既存サービス・受付10件・実URLと納品検証の保留・操作見積もりを照合')
 
 # Functional test suite must actually execute.
 suite=unittest.defaultTestLoader.discover(str(ROOT/'qa'),pattern='test_*.py')
@@ -220,7 +221,7 @@ check('不要ファイル',not junk,str(junk) if junk else '資格情報・OSキ
 failures=sum(not r[1] for r in results)
 report=['# 全件QA結果','', '最終判定：'+('PASS' if not failures else 'FAIL'),'','| 検査 | 結果 | 証拠・範囲 |','| --- | --- | --- |']
 report += [f'| {name} | {"PASS" if passed else "FAIL"} | {detail.replace("|","／")} |' for name,passed,detail in results]
-report += ['', '## 自己修正履歴','','- 初回のCSV数式保護テストで、前後空白を正規化する実装と期待値が不一致。入力正規化後も先頭の数式開始文字をアポストロフィで保護することを検証する期待値へ修正。機能テストを再実行して全件PASS。','- 最終公開前の見直しでX投稿3が通常投稿の重み付き280枠を超えていたため短縮。全投稿にSquare直販のCTAを明示し、Instagramの今夜本文は画像1枚用に切り出した。', '- Formsフローの重複判定と通知位置が曖昧だったため、応答IDとフィルターの名前、判定式、Yes側の配置、通知失敗時の手動復旧を具体化。', '- 未完マーカー検査で、指定された商品名ToDoと、無期限対応を禁止する規則を誤検出。商品ラベルと明示的な否定を用途で区別する検査へ修正し、全件を再検査。','', '## 実施していない検証','','M365実テナント連携、AIサービスへ送信、VBA実機コンパイル・実行、販売サイト公開・決済、顧客診断は未実施。Pythonサンプル・静的検査の結果と区別して商品に明記。販売素材は完成、公開はHUMAN_ACTIONS.mdの認証済み販売者操作が必要。','', '未完成マーカーの検索語を含む監査実装自体と、指定管理ファイル名は未完の販売文章として扱わない。コード静的検査と個人情報のパターン検索は網羅的な安全保証ではない。']
+report += ['', '## 自己修正履歴','','- 初回のCSV数式保護テストで、前後空白を正規化する実装と期待値が不一致。入力正規化後も先頭の数式開始文字をアポストロフィで保護することを検証する期待値へ修正。機能テストを再実行して全件PASS。','- 最終公開前の見直しでX投稿3が通常投稿の重み付き280枠を超えていたため短縮。全投稿にSquare直販のCTAを明示し、Instagramの今夜本文は画像1枚用に切り出した。', '- Formsフローの重複判定と通知位置が曖昧だったため、応答IDとフィルターの名前、判定式、Yes側の配置、通知失敗時の手動復旧を具体化。', '- Issue #1実装で旧ストア新規作成・ココナラ新規公開・受付1件・Square注文画面からのZIP納品という未検証の手順を置換。実リンクと購入後納品を検証するまでSNS公開を保留。', '- 未完マーカー検査で、指定された商品名ToDoと、無期限対応を禁止する規則を誤検出。商品ラベルと明示的な否定を用途で区別する検査へ修正し、全件を再検査。','', '## 実施していない検証','','M365実テナント連携、AIサービス送信、VBA実機実行、Square実リンク探索・作成・決済・メール納品は未実施。Issue #1によるココナラFE公開済みの報告と、Codex自身の実操作を区別する。APIモックによる決済・メール・ZIP検証は実購入検証の代わりではない。認証設定と購入者画面・返信受信の実検証が残る。','', '未完成マーカーの検索語を含む監査実装自体と、指定管理ファイル名は未完の販売文章として扱わない。コード静的検査と個人情報のパターン検索は網羅的な安全保証ではない。']
 content='\n'.join(report)+'\n'
 (ROOT/'qa/full_qa.md').write_text(content,encoding='utf-8')
 (RELEASE/'QA_REPORT.md').write_text(content,encoding='utf-8')

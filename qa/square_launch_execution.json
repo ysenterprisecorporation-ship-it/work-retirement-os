@@ -1,0 +1,14 @@
+{
+  "command": "python scripts/square_fe_launch.py --environment production --dry-run",
+  "return_code": 2,
+  "result": {
+    "status": "BLOCKED",
+    "reason": "MISSING_SQUARE_ACCESS_TOKEN",
+    "environment": "production",
+    "mode": "dry-run",
+    "write_attempts": 0,
+    "creation_outcome": "NO_WRITES",
+    "real_environment_connected": false
+  },
+  "live_charge_or_email_sent": false
+}

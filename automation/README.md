@@ -13,7 +13,7 @@ python automation/fulfill.py CORE automation/CORE_demo_answers.json --output loc
 python automation/fulfill.py PRO automation/PRO_demo_answers.json --output local_output/pro_demo
 ```
 
-各コマンドは診断下書き、対象パッチ、参照実行コード入りZIPを生成します。同じ出力先への上書きを拒否します。FEのパッチは条件に合わせて1本のみ。CORE/PROは5本。顧客回答で実行する場合、診断の適用条件を販売者が確定し、購入チャネル内で納品します。
+各コマンドは診断下書き、対象パッチ、参照実行コード入りZIPを生成します。同じ出力先への上書きを拒否します。FEのパッチは条件に合わせて1本のみ。CORE/PROは5本。顧客回答で実行する場合、診断の適用条件を販売者が確定し、ココナラはトークルーム、Squareは検証した購入者メールへ納品します。
 
 ## 販売素材の再生成とQA
 
@@ -32,3 +32,5 @@ qa.pyは全件検査と単体テストを実行し、qa/full_qa.md、リリー�
 ## 検証範囲
 
 ローカルサンプル、入力境界、納品ZIP、販売文章、画像を検証します。M365テナント接続、VBA実機、AIサービスへの送信、販売サイトの公開は実施しません。アプリの常駐サーバーは不要です。
+
+Square支払確認・メール・冪等再実行は[Square CLI手順](../scripts/README.md)。既存資産生成だけでは実決済・メール到達や常時運用を検証しません。

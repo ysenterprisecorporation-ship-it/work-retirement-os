@@ -26,3 +26,7 @@ python automation/qa.py
 ```
 
 [自動化・納品生成手順](automation/README.md)。この既存チェックアウトを使い、別worktreeは作成しません。顧客選択肢はGit対象外のlocal_outputに置き、実名・勤務先・認証情報は保存しません。
+
+## Issue #1 Square直販
+
+[決済・支払検証・メール納品のCLI手順](scripts/README.md)。[実施状況](release/2026-10-10/SQUARE_LAUNCH_STATUS.md)。既存決済リンクを最優先し、実URLと実納品が未検証ならSNS公開を保留します。秘密値は環境設定のみへ登録。
