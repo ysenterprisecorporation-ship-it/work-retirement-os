@@ -50,7 +50,10 @@ for p,t in texts.items():
  for href in re.findall(r'\[[^\]]*\]\(([^)]+)\)',t):
   target=href.split('#')[0].strip('<>')
   if not target or re.match(r'^[a-z]+:',target):continue
-  if not (p.parent/target).exists():broken.append(str(p.relative_to(ROOT))+':'+target)
+  origin=p
+  history=ROOT/'release/history/superseded-sns-routing'
+  if p.is_relative_to(history):origin=ROOT/p.relative_to(history)
+  if not (origin.parent/target).exists():broken.append(str(p.relative_to(ROOT))+':'+target)
 check('内部Markdownリンク',not broken,str(broken) if broken else '全ローカルリンクの宛先が存在。外部API資料のURLは存在検査の対象外')
 
 catalog=json.loads((ROOT/'business/catalog.json').read_text(encoding='utf-8'))
@@ -194,7 +197,7 @@ for channel in ['coconala','square','sns']:
    target=RELEASE/channel/src.relative_to(ROOT/'sales'/channel)
    if not target.exists() or target.read_bytes()!=src.read_bytes():release_missing.append(str(target.relative_to(RELEASE)))
 check('販売ソースとリリース同期',not release_missing,str(release_missing) if release_missing else '全販売文のバイト一致、必要なファイルの欠落なし')
-check('画像パス・既存販売と直販検証',all((RELEASE/f'images/{tier}.png').exists() and str(RELEASE/f'images/{tier}.png') in guide for tier in catalog) and '4445208' in guide and '同時受付上限10件' in guide and 'BLOCKED' in guide and '実URL' in guide and '操作約15分' in guide,'画像3件・既存サービス・受付10件・実URLと納品検証の保留・操作見積もりを照合')
+check('画像パス・既存販売と直販検証',all((RELEASE/f'images/{tier}.png').exists() and f'release/2026-10-10/images/{tier}.png' in guide for tier in catalog) and '4445208' in guide and '同時受付上限10件' in guide and 'BLOCKED' in guide and '実URL' in guide and '操作約15分' in guide,'画像3件・既存サービス・受付10件・実URLと納品検証の保留・操作見積もりを照合')
 
 # Audit the new day's changed drafts and the single reused delivery evidence.
 DAY=ROOT/'release/2026-10-11'
@@ -209,17 +212,13 @@ if DAY.exists():
    if src.read_text().strip() not in draft:price_bad.append(tier+'/'+src.name)
   copied=re.findall(r'```text\n(.*?)\n```',draft,re.S)
   if any(pattern.search(b) for b in copied):price_bad.append(tier+'外部誘導')
- check('10月11日高額原稿と価格',not price_bad,str(price_bad) if price_bad else '現採用CORE10,000円・PRO40,000円、各7原稿全文一致・外部誘導なし')
+ check('10月11日高額原稿と価格',not price_bad,str(price_bad) if price_bad else '既存稿CORE10,000円・PRO40,000円、各7原稿全文一致・外部誘導なし。正式価格の承認は別')
  post_bad=[]
  pack=(DAY/'APPROVAL_PACK.md').read_text()
- url='https://coconala.com/services/4445208'
  for platform in ['x','instagram','facebook']:
   body=(DAY/'sns'/f'{platform}.txt').read_text().strip()
-  if url not in body or '3,000円' not in body or body not in pack or 'Square' in body:post_bad.append(platform)
-  if platform=='x':
-   no_url=body.replace(url,'')
-   if x_weighted(no_url)+23>280:post_bad.append(platform+'文字数')
- check('10月11日SNSと実FE導線',not post_bad,str(post_bad) if post_bad else 'X/IG/FB各1本・同一実FE URL・価格・一括原稿・X文字枠を照合')
+  if 'https://coconala.com/' in body or '公開保留' not in body or 'Square' not in body:post_bad.append(platform)
+ check('10月11日SNS誤誘導防止',not post_bad and 'SNSからココナラへ誘導しない' in pack,str(post_bad) if post_bad else 'Square実URL未確認中は公開保留。ココナラ送客URLなし')
  evidence=json.loads((ROOT/'qa/fe_delivery_2026-10-11.json').read_text())
  archive=ROOT/evidence['reused_archive']
  check('10月11日FE納品実例',evidence['crc']=='PASS' and 300<=evidence['diagnosis_characters']<=500 and evidence['archive_contents_match_current_generator'] and evidence['patch_sample_matches_expected'] and not evidence['external_delivery_sent'] and hashlib.sha256(archive.read_bytes()).hexdigest()==evidence['sha256'],'既存ZIPハッシュ・384字診断・パッチ03実行の証拠を照合。顧客送信と区別')
@@ -251,7 +250,7 @@ check('不要ファイル',not junk,str(junk) if junk else '資格情報・OSキ
 failures=sum(not r[1] for r in results)
 report=['# 全件QA結果','', '最終判定：'+('PASS' if not failures else 'FAIL'),'','| 検査 | 結果 | 証拠・範囲 |','| --- | --- | --- |']
 report += [f'| {name} | {"PASS" if passed else "FAIL"} | {detail.replace("|","／")} |' for name,passed,detail in results]
-report += ['', '## 自己修正履歴','','- 初回のCSV数式保護テストで、前後空白を正規化する実装と期待値が不一致。入力正規化後も先頭の数式開始文字をアポストロフィで保護することを検証する期待値へ修正。機能テストを再実行して全件PASS。','- 最終公開前の見直しでX投稿3が通常投稿の重み付き280枠を超えていたため短縮。全投稿にSquare直販のCTAを明示し、Instagramの今夜本文は画像1枚用に切り出した。', '- Formsフローの重複判定と通知位置が曖昧だったため、応答IDとフィルターの名前、判定式、Yes側の配置、通知失敗時の手動復旧を具体化。', '- 10月11日の正式依頼ではSNS案内先を公開済みFEへ変更。旧直販素材の再制作はせず、日付別に案内を分けた。FEの架空回答実例は不備なし。', '- Issue #1実装で旧ストア新規作成・ココナラ新規公開・受付1件・Square注文画面からのZIP納品という未検証の手順を置換。実リンクと購入後納品を検証するまでSNS公開を保留。', '- 未完マーカー検査で、指定された商品名ToDoと、無期限対応を禁止する規則を誤検出。商品ラベルと明示的な否定を用途で区別する検査へ修正し、全件を再検査。','', '## 実施していない検証','','M365実テナント連携、AIサービス送信、VBA実機実行、Square実リンク探索・作成・決済・メール納品は未実施。Issue #1によるココナラFE公開済みの報告と、Codex自身の実操作を区別する。APIモックによる決済・メール・ZIP検証は実購入検証の代わりではない。認証設定と購入者画面・返信受信の実検証が残る。','', '未完成マーカーの検索語を含む監査実装自体と、指定管理ファイル名は未完の販売文章として扱わない。コード静的検査と個人情報のパターン検索は網羅的な安全保証ではない。']
+report += ['', '## 自己修正履歴','','- 初回のCSV数式保護テストで、前後空白を正規化する実装と期待値が不一致。入力正規化後も先頭の数式開始文字をアポストロフィで保護することを検証する期待値へ修正。機能テストを再実行して全件PASS。','- 最終公開前の見直しでX投稿3が通常投稿の重み付き280枠を超えていたため短縮。全投稿にSquare直販のCTAを明示し、Instagramの今夜本文は画像1枚用に切り出した。', '- Formsフローの重複判定と通知位置が曖昧だったため、応答IDとフィルターの名前、判定式、Yes側の配置、通知失敗時の手動復旧を具体化。', '- 最新のユーザー訂正によりSNSはSquare直販へ復帰。誤ったココナラ送客稿は履歴保存し公開候補から除外。実URLと納品確認前は公開保留。', '- Issue #1実装で旧ストア新規作成・ココナラ新規公開・受付1件・Square注文画面からのZIP納品という未検証の手順を置換。実リンクと購入後納品を検証するまでSNS公開を保留。', '- 未完マーカー検査で、指定された商品名ToDoと、無期限対応を禁止する規則を誤検出。商品ラベルと明示的な否定を用途で区別する検査へ修正し、全件を再検査。','', '## 実施していない検証','','M365実テナント連携、AIサービス送信、VBA実機実行、Square実リンク探索・作成・決済・メール納品は未実施。Issue #1によるココナラFE公開済みの報告と、Codex自身の実操作を区別する。APIモックによる決済・メール・ZIP検証は実購入検証の代わりではない。認証設定と購入者画面・返信受信の実検証が残る。','', '未完成マーカーの検索語を含む監査実装自体と、指定管理ファイル名は未完の販売文章として扱わない。コード静的検査と個人情報のパターン検索は網羅的な安全保証ではない。']
 content='\n'.join(report)+'\n'
 (ROOT/'qa/full_qa.md').write_text(content,encoding='utf-8')
 (RELEASE/'QA_REPORT.md').write_text(content,encoding='utf-8')

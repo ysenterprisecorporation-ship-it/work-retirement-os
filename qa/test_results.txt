@@ -78,6 +78,6 @@ test_vba_explicit_required (test_workflows.PatchTests.test_vba_explicit_required
 test_vba_never_executed (test_workflows.PatchTests.test_vba_never_executed) ... ok
 
 ----------------------------------------------------------------------
-Ran 78 tests in 0.862s
+Ran 78 tests in 0.170s
 
 OK
